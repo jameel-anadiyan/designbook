@@ -1,0 +1,149 @@
+@import 'tailwindcss';
+
+/* =====================================================================
+   SWA Diamonds · Design Book design system
+   White + teal only · light theme only · no dark tones anywhere.
+   Primary teal read from the logo source (swa-about-logo.svg): #017480.
+   ===================================================================== */
+
+@theme {
+  /* Fonts */
+  --font-sans: 'Jost', ui-sans-serif, system-ui, sans-serif;
+  --font-serif: 'Cormorant Garamond', ui-serif, Georgia, serif;
+
+  /* Teal scale (overrides Tailwind's default teal) */
+  --color-teal-50: #f4fafa;   /* mist: bands, skeletons, filter panel */
+  --color-teal-100: #e6f3f4;  /* soft: chips, badges, tile hover */
+  --color-teal-200: #cce5e8;
+  --color-teal-300: #9dcdd2;
+  --color-teal-400: #5aaab2;
+  --color-teal-500: #268b95;
+  --color-teal-600: #017480;  /* primary: logo, buttons, links, focus */
+  --color-teal-700: #005a62;  /* deep: hover/pressed, headings */
+  --color-teal-800: #0e4b52;  /* text: body copy (never black) */
+  --color-teal-900: #0b3d43;
+
+  --color-line: #d5e8ea;
+  --color-ink: #0e4b52;
+  --color-ink-soft: #4f7c81;
+  --color-ink-faint: #85a7ab;
+
+  /* Status tints: small badges only */
+  --color-hold-bg: #fff4e0;
+  --color-hold: #8a5a00;
+  --color-error-bg: #fdecec;
+  --color-error: #a12b2b;
+  --color-sold-bg: #eef1f2;
+  --color-sold: #4a6366;
+  --color-ok-bg: #e7f5ee;
+  --color-ok: #1f6b45;
+
+  /* Shape + depth (teal-tinted shadows, never grey/black) */
+  --radius-xl: 0.875rem;
+  --radius-2xl: 1.25rem;
+  --shadow-soft: 0 1px 2px rgb(1 116 128 / 0.06), 0 4px 16px rgb(1 116 128 / 0.06);
+  --shadow-lift: 0 2px 6px rgb(1 116 128 / 0.08), 0 12px 32px rgb(1 116 128 / 0.12);
+  --shadow-glow: 0 0 0 4px rgb(1 116 128 / 0.14);
+
+  /* Motion */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-fade-in: fade-in 180ms var(--ease-out-soft) both;
+  --animate-rise: rise 220ms var(--ease-out-soft) both;
+  --animate-shimmer: shimmer 1.4s linear infinite;
+  --animate-shake: shake 360ms ease-in-out;
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes shimmer {
+    from { background-position: -200% 0; }
+    to { background-position: 200% 0; }
+  }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-6px); }
+    40%, 80% { transform: translateX(6px); }
+  }
+}
+
+/* Light theme only — ignore OS dark mode */
+:root {
+  color-scheme: light only;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply bg-white font-sans text-ink antialiased;
+    font-feature-settings: 'kern', 'liga';
+  }
+  h1, h2, h3, .font-display {
+    @apply font-serif font-semibold text-teal-700;
+    letter-spacing: 0.005em;
+  }
+  ::selection {
+    background: var(--color-teal-100);
+    color: var(--color-teal-800);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-teal-600);
+    outline-offset: 2px;
+  }
+  input, select, textarea, button { font: inherit; color: inherit; }
+  /* never let mobile Safari zoom on focus */
+  input, select, textarea { font-size: max(16px, 1em); }
+}
+
+@layer components {
+  /* Uppercase label echoing the logo's wide-spaced "DIAMONDS" */
+  .label-caps {
+    @apply text-[0.6875rem] font-medium uppercase text-ink-soft;
+    letter-spacing: 0.12em;
+  }
+  .tabular { font-variant-numeric: tabular-nums lining-nums; }
+
+  .skeleton {
+    background: linear-gradient(90deg, var(--color-teal-50) 0%, var(--color-teal-100) 50%, var(--color-teal-50) 100%);
+    background-size: 200% 100%;
+    @apply animate-shimmer rounded-lg;
+  }
+
+  /* Soft white overlay for dialogs (never a dark scrim) */
+  .overlay-white {
+    background: rgb(255 255 255 / 0.9);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+
+  .card {
+    @apply rounded-2xl border border-line bg-white shadow-soft;
+  }
+
+  .hairline-gradient {
+    background: linear-gradient(90deg, transparent, var(--color-line), transparent);
+    height: 1px;
+  }
+
+  .pb-safe { padding-bottom: var(--safe-bottom); }
+  .pt-safe { padding-top: var(--safe-top); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    transition-duration: 1ms !important;
+  }
+}
